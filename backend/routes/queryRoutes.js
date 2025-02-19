@@ -11,4 +11,8 @@ router.get('/user/:userId', auth, (req, res) => {
   res.status(200).json({ message: 'Get user queries - to be implemented' });
 });
 
+router.put('/:queryId/respond', auth, (req, res) => {
+  res.status(200).json({ message: 'Respond to query - to be implemented' });
+});
+
 module.exports = router; 

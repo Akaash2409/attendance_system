@@ -1,22 +1,26 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
+const {
+  markEntry,
+  markExit,
+  getTodayAttendance,
+  getAttendanceHistory
+} = require('../controllers/attendanceController');
 
-// Placeholder routes - we'll implement the controllers later
-router.post('/mark-entry', auth, (req, res) => {
-  res.status(200).json({ message: 'Entry route - to be implemented' });
-});
+const {
+  checkDailyEntry,
+  validateExit,
+  validateDateRange,
+  validatePagination
+} = require('../middleware/attendanceMiddleware');
 
-router.post('/mark-exit', auth, (req, res) => {
-  res.status(200).json({ message: 'Exit route - to be implemented' });
-});
+// Mark attendance routes
+router.post('/mark-entry', auth, checkDailyEntry, markEntry);
+router.post('/mark-exit', auth, validateExit, markExit);
 
-router.get('/today', auth, (req, res) => {
-  res.status(200).json({ message: 'Today\'s attendance - to be implemented' });
-});
-
-router.get('/history', auth, (req, res) => {
-  res.status(200).json({ message: 'Attendance history - to be implemented' });
-});
+// Get attendance routes
+router.get('/today', auth, getTodayAttendance);
+router.get('/history', auth, validateDateRange, validatePagination, getAttendanceHistory);
 
 module.exports = router; 
